@@ -49,6 +49,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
         _ webViewConfiguration: WKWebViewConfiguration,
         _ scrollViewBounces: Bool = true,
         _ customUserAgent: String? = nil,
+        _ backForwardNavigationGestures: Bool = true,
         uiModel: OSIABWebViewUIModel,
         callbackHandler: OSIABWebViewCallbackHandler
     ) {
@@ -68,12 +69,11 @@ class OSIABWebViewModel: NSObject, ObservableObject {
         self.leftToRight = uiModel.leftToRight
         
         super.init()
-        
+        self.webView.allowsBackForwardNavigationGestures = backForwardNavigationGestures
         self.webView.scrollView.bounces = scrollViewBounces
         self.webView.customUserAgent = customUserAgent
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
-        
         self.setupBindings(uiModel.showURL, uiModel.showToolbar, uiModel.showNavigationButtons)
     }
     
