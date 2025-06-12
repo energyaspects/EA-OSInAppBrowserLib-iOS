@@ -26,9 +26,6 @@ jobs:
 
       - name: Set up XCode 
         run: sudo xcode-select --switch /Applications/Xcode_15.0.app
-
-      - name: List available simulators
-        run: xcrun simctl list devices
       
       - name: Bundle Install
         run: bundle install
