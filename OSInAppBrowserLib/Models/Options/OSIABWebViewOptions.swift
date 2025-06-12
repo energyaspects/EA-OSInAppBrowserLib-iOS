@@ -30,6 +30,8 @@ public class OSIABWebViewOptions: OSIABOptions {
     let surpressIncrementalRendering: Bool
     /// Sets a custom user agent for the WebView.
     let customUserAgent: String?
+    /// Indicates if swipe gestures for navigating backward and forward in the WebView history are enabled.
+    let allowsBackForwardNavigationGestures: Bool
     
     /// Constructor method.
     /// - Parameters:
@@ -49,6 +51,7 @@ public class OSIABWebViewOptions: OSIABOptions {
     ///   - viewStyle: The view style to present. `defaultValue` is provided in case of no value.
     ///   - animationEffect: The animation effect for the presentation appearance and dismissal. `defaultValue` is provided in case of no value.
     ///   - customUserAgent: Sets a custom user agent for the WebView.`
+    ///   - allowsBackForwardNavigationGestures: Indicates if swipe gestures for navigating backward and forward in the WebView history are enabled.
     public init(
         showURL: Bool = true,
         showToolbar: Bool = true,
@@ -65,7 +68,8 @@ public class OSIABWebViewOptions: OSIABOptions {
         surpressIncrementalRendering: Bool = false,
         viewStyle: OSIABViewStyle = .defaultValue, 
         animationEffect: OSIABAnimationEffect = .defaultValue,
-        customUserAgent: String? = nil
+        customUserAgent: String? = nil,
+        allowsBackForwardNavigationGestures: Bool = true,
     ) {
         self.showURL = showURL
         self.showToolbar = showToolbar
@@ -81,6 +85,7 @@ public class OSIABWebViewOptions: OSIABOptions {
         self.allowInLineMediaPlayback = allowInLineMediaPlayback
         self.surpressIncrementalRendering = surpressIncrementalRendering
         self.customUserAgent = customUserAgent
+        self.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         super.init(viewStyle: viewStyle, animationEffect: animationEffect)
     }
 }

@@ -39,6 +39,7 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
             self.options.toConfigurationModel().toWebViewConfiguration(),
             self.options.allowOverScroll,
             self.options.customUserAgent,
+            self.options.allowsBackForwardNavigationGestures,
             uiModel: self.options.toUIModel(),
             callbackHandler: self.callbackHandler
         )
