@@ -69,7 +69,7 @@ public class OSIABWebViewOptions: OSIABOptions {
         viewStyle: OSIABViewStyle = .defaultValue, 
         animationEffect: OSIABAnimationEffect = .defaultValue,
         customUserAgent: String? = nil,
-        allowsBackForwardNavigationGestures: Bool = true,
+        allowsBackForwardNavigationGestures: Bool = true
     ) {
         self.showURL = showURL
         self.showToolbar = showToolbar
