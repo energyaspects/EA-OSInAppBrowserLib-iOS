@@ -42,7 +42,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     /// Constructor method.
     /// - Parameters:
     ///   - url: The current URL being displayed
-    ///   - webViewConfiguration: Collection of properties with which to initialize the WebView.
+    ///   - webView: The WebView to display and configure.
     ///   - scrollViewBounces: Indicates if the WebView's bounce property should be enabled. Defaults to `true`.
     ///   - customUserAgent: Sets a custom user agent for the WebView.
     ///   - uiModel: Collection of properties to apply to the WebView's interface.
@@ -50,7 +50,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     init(
         url: URL,
         customHeaders: [String: String]? = nil,
-        _ webViewConfiguration: WKWebViewConfiguration,
+        _ webView: WKWebView,
         _ scrollViewBounces: Bool = true,
         _ customUserAgent: String? = nil,
         _ backForwardNavigationGestures: Bool = true,
@@ -59,7 +59,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     ) {
         self.url = url
         self.customHeaders = customHeaders
-        self.webView = .init(frame: .zero, configuration: webViewConfiguration)
+        self.webView = webView
         self.closeButtonText = uiModel.closeButtonText
         self.callbackHandler = callbackHandler
         if uiModel.showToolbar {
@@ -82,6 +82,36 @@ class OSIABWebViewModel: NSObject, ObservableObject {
         self.setupBindings(uiModel.showURL, uiModel.showToolbar, uiModel.showNavigationButtons)
     }
     
+    /// Constructor method.
+    /// - Parameters:
+    ///   - url: The current URL being displayed
+    ///   - webViewConfiguration: Collection of properties with which to initialize the WebView.
+    ///   - scrollViewBounces: Indicates if the WebView's bounce property should be enabled. Defaults to `true`.
+    ///   - customUserAgent: Sets a custom user agent for the WebView.
+    ///   - uiModel: Collection of properties to apply to the WebView's interface.
+    ///   - callbackHandler: Object that manages all the callbacks available for the WebView.
+    convenience init(
+        url: URL,
+        customHeaders: [String: String]? = nil,
+        _ webViewConfiguration: WKWebViewConfiguration,
+        _ scrollViewBounces: Bool = true,
+        _ customUserAgent: String? = nil,
+        _ backForwardNavigationGestures: Bool = true,
+        uiModel: OSIABWebViewUIModel,
+        callbackHandler: OSIABWebViewCallbackHandler
+    ) {
+        self.init(
+            url: url,
+            customHeaders: customHeaders,
+            WKWebView(frame: .zero, configuration: webViewConfiguration),
+            scrollViewBounces,
+            customUserAgent,
+            backForwardNavigationGestures,
+            uiModel: uiModel,
+            callbackHandler: callbackHandler
+        )
+    }
+            
     /// Setups the combine bindings, so that the Published properties can be filled automatically and reactively.
     private func setupBindings(_ showURL: Bool, _ showToolbar: Bool, _ showNavigationButtons: Bool) {
         if #available(iOS 14.0, *) {
