@@ -7,6 +7,8 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
     
     /// Object that contains the value to format the visual presentation.
     private let options: OSIABWebViewOptions
+    /// Custom headers to be used by the WebView.
+    private let customHeaders: [String: String]?
     /// Object that manages the browser's cache
     private let cacheManager: OSIABCacheManager
     /// Object that manages all the callbacks available for the WebView.
@@ -15,14 +17,17 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
     /// Constructor method.
     /// - Parameters:
     ///   - options: Object that contains the value to format the visual presentation.
+    ///   - customHeaders: Custom headers to be used by the WebView. `nil` is provided in case of no value.
     ///   - cacheManager: Object that manages the browser's cache
     ///   - callbackHandler: Object that manages all the callbacks available for the WebView.
     public init(
         _ options: OSIABWebViewOptions,
+        _ customHeaders: [String: String]? = nil,
         cacheManager: OSIABCacheManager,
         callbackHandler: OSIABWebViewCallbackHandler
     ) {
         self.options = options
+        self.customHeaders = customHeaders
         self.cacheManager = cacheManager
         self.callbackHandler = callbackHandler
     }
@@ -36,6 +41,7 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
         
         let viewModel = OSIABWebViewModel(
             url: url,
+            customHeaders: self.customHeaders,
             self.options.toConfigurationModel().toWebViewConfiguration(),
             self.options.allowOverScroll,
             self.options.customUserAgent,

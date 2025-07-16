@@ -20,6 +20,9 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     /// Indicates if first load is already done. This is important in order to trigger the `browserPageLoad` event.
     private var firstLoadDone: Bool = false
     
+    /// Custom headers to be used by the WebView.
+    private let customHeaders: [String: String]?
+    
     /// The current URL being displayed
     @Published private(set) var url: URL
     /// Indicates if the URL is being loaded into the screen.
@@ -46,6 +49,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     ///   - callbackHandler: Object that manages all the callbacks available for the WebView.
     init(
         url: URL,
+        customHeaders: [String: String]? = nil,
         _ webViewConfiguration: WKWebViewConfiguration,
         _ scrollViewBounces: Bool = true,
         _ customUserAgent: String? = nil,
@@ -54,6 +58,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
         callbackHandler: OSIABWebViewCallbackHandler
     ) {
         self.url = url
+        self.customHeaders = customHeaders
         self.webView = .init(frame: .zero, configuration: webViewConfiguration)
         self.closeButtonText = uiModel.closeButtonText
         self.callbackHandler = callbackHandler
@@ -133,7 +138,13 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     
     /// Loads the URL within the WebView. Is the first operation to be performed when the view is displayed.
     func loadURL() {
-        self.webView.load(.init(url: self.url))
+        var request = URLRequest(url: self.url)
+        if let headers = self.customHeaders {
+            for (key, value) in headers {
+                request.setValue(value, forHTTPHeaderField: key)
+            }
+        }
+        self.webView.load(request)
     }
     
     /// Signals the WebView to move forward. This is performed as a reaction to a button click.
