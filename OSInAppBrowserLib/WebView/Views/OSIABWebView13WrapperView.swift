@@ -52,7 +52,7 @@ private extension OSIABWebViewModel {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
             url: .init(string: "https://outsystems.com")!,
-            configurationModel.toWebViewConfiguration(),
+            webViewConfiguration: configurationModel.toWebViewConfiguration(),
             uiModel: .init(toolbarPosition: toolbarPosition),
             callbackHandler: .init(
                 onDelegateURL: { _ in },
@@ -68,7 +68,7 @@ private extension OSIABWebViewModel {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
             url: .init(string: url)!,
-            configurationModel.toWebViewConfiguration(),
+            webViewConfiguration: configurationModel.toWebViewConfiguration(),
             uiModel: .init(),
             callbackHandler: .init(
                 onDelegateURL: { _ in },
