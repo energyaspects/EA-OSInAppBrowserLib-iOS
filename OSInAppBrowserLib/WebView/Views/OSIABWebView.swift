@@ -83,7 +83,7 @@ private extension OSIABWebViewModel {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
             url: .init(string: url)!,
-            configurationModel.toWebViewConfiguration(),
+            webViewConfiguration: configurationModel.toWebViewConfiguration(),
             uiModel: .init(
                 showURL: showURL,
                 showToolbar: showToolbar,

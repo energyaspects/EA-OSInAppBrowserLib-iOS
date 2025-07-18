@@ -136,6 +136,15 @@ final class OSIABViewModelTests: XCTestCase {
         XCTAssertEqual(sut.webView.url, url)
     }
     
+    func test_loadURL_withCustomHeaders() {
+        let mockWebView = MockWKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        let sut = makeSUT(url, webView: mockWebView, customHeaders: ["Custom-Header": "Value"])
+        
+        sut.loadURL()
+        
+        XCTAssertEqual(mockWebView.lastRequest?.value(forHTTPHeaderField: "Custom-Header"), "Value")
+    }
+    
     // MARK: Close Button Pressed
     
     func test_closeButtonPressed_triggersTheBrowserClosedEvent() {
@@ -275,6 +284,8 @@ final class OSIABViewModelTests: XCTestCase {
 private extension OSIABViewModelTests {
     func makeSUT(
         _ url: URL,
+        webView: WKWebView? = nil,
+        customHeaders: [String: String]? = nil,
         mediaTypesRequiringUserActionForPlayback: WKAudiovisualMediaTypes = [],
         ignoresViewportScaleLimits: Bool = false,
         allowsInlineMediaPlayback: Bool = false,
@@ -298,7 +309,8 @@ private extension OSIABViewModelTests {
         
         return .init(
             url: url,
-            configurationModel.toWebViewConfiguration(),
+            customHeaders: customHeaders,
+            webView ?? WKWebView(frame: .zero, configuration: configurationModel.toWebViewConfiguration()),
             scrollViewBounds,
             customUserAgent,
             uiModel: .init(
@@ -316,5 +328,13 @@ private extension OSIABViewModelTests {
                 onBrowserPageNavigationCompleted: onBrowserPageNavigationCompleted
             )
         )
+    }
+}
+
+class MockWKWebView: WKWebView {
+    var lastRequest: URLRequest?
+    override func load(_ request: URLRequest) -> WKNavigation? {
+        lastRequest = request
+        return nil
     }
 }

@@ -7,6 +7,8 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
     
     /// Object that contains the value to format the visual presentation.
     private let options: OSIABWebViewOptions
+    /// Custom headers to be used by the WebView.
+    private let customHeaders: [String: String]?
     /// Object that manages the browser's cache
     private let cacheManager: OSIABCacheManager
     /// Object that manages all the callbacks available for the WebView.
@@ -15,14 +17,17 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
     /// Constructor method.
     /// - Parameters:
     ///   - options: Object that contains the value to format the visual presentation.
+    ///   - customHeaders: Custom headers to be used by the WebView. `nil` is provided in case of no value.
     ///   - cacheManager: Object that manages the browser's cache
     ///   - callbackHandler: Object that manages all the callbacks available for the WebView.
     public init(
-        _ options: OSIABWebViewOptions,
+        options: OSIABWebViewOptions,
+        customHeaders: [String: String]? = nil,
         cacheManager: OSIABCacheManager,
         callbackHandler: OSIABWebViewCallbackHandler
     ) {
         self.options = options
+        self.customHeaders = customHeaders
         self.cacheManager = cacheManager
         self.callbackHandler = callbackHandler
     }
@@ -36,12 +41,13 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
         
         let viewModel = OSIABWebViewModel(
             url: url,
-            self.options.toConfigurationModel().toWebViewConfiguration(),
-            self.options.allowOverScroll,
-            self.options.customUserAgent,
-            self.options.allowsBackForwardNavigationGestures,
-            uiModel: self.options.toUIModel(),
-            callbackHandler: self.callbackHandler
+            customHeaders: customHeaders,
+            webViewConfiguration: options.toConfigurationModel().toWebViewConfiguration(),
+            scrollViewBounces: options.allowOverScroll,
+            customUserAgent: options.customUserAgent,
+            backForwardNavigationGestures: options.allowsBackForwardNavigationGestures,
+            uiModel: options.toUIModel(),
+            callbackHandler: callbackHandler
         )
         
         let dismissCallback: () -> Void = { self.callbackHandler.onBrowserClosed(true) }
@@ -52,8 +58,8 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
         } else {
             hostingController = OSIABWebView13Controller(rootView: .init(viewModel), dismiss: dismissCallback)
         }
-        hostingController.modalPresentationStyle = self.options.modalPresentationStyle
-        hostingController.modalTransitionStyle = self.options.modalTransitionStyle
+        hostingController.modalPresentationStyle = options.modalPresentationStyle
+        hostingController.modalTransitionStyle = options.modalTransitionStyle
         hostingController.presentationController?.delegate = self
         
         completionHandler(hostingController)
@@ -66,10 +72,10 @@ private extension OSIABWebViewOptions {
     /// - Returns: The `OSIABWebViewConfigurationModel` equivalent value.
     func toConfigurationModel() -> OSIABWebViewConfigurationModel {
         .init(
-            self.mediaTypesRequiringUserActionForPlayback,
-            self.enableViewportScale,
-            self.allowInLineMediaPlayback,
-            self.surpressIncrementalRendering
+            mediaTypesRequiringUserActionForPlayback,
+            enableViewportScale,
+            allowInLineMediaPlayback,
+            surpressIncrementalRendering
         )
     }
     
@@ -77,12 +83,12 @@ private extension OSIABWebViewOptions {
     /// - Returns: The `OSIABWebViewUIModel` equivalent value.
     func toUIModel() -> OSIABWebViewUIModel {
         .init(
-            showURL: self.showURL,
-            showToolbar: self.showToolbar,
-            toolbarPosition: self.toolbarPosition,
-            showNavigationButtons: self.showNavigationButtons,
-            leftToRight: self.leftToRight,
-            closeButtonText: self.closeButtonText
+            showURL: showURL,
+            showToolbar: showToolbar,
+            toolbarPosition: toolbarPosition,
+            showNavigationButtons: showNavigationButtons,
+            leftToRight: leftToRight,
+            closeButtonText: closeButtonText
         )
     }
 }
