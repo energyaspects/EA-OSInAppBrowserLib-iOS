@@ -1,0 +1,20 @@
+{
+    "name": "@energyaspects/ea-osinappbrowserlib-ios",
+    "version": "2.1.0",
+    "description": "Energy Aspects' OSInAppBrowserLib for iOS",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/energyaspects/EA-OSInAppBrowserLib-iOS.git"
+    },
+    "publishConfig": {
+      "registry": "https://npm.pkg.github.com"
+    },
+    "files": [
+      "Package.swift",
+      "OSInAppBrowserLib.podspec",
+      "OSInAppBrowserLib.zip",
+      "OSInAppBrowserLib/**/*.swift"
+    ],
+    "author": "EA Dev Team",
+    "license": "MIT"
+  }

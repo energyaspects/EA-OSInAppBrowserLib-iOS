@@ -17,7 +17,7 @@ let package = Package(
         .binaryTarget(
             name: "OSInAppBrowserLib",
             url: "https://github.com/energyaspects/EA-OSInAppBrowserLib-iOS/releases/download/2.1.0/OSInAppBrowserLib.zip",
-            checksum: "3d9d8b42db646e220fe9f0a67cefd7e8d67780fbe8bbb39040166acb839ff929"
+            checksum: "8700c5929eda811739570b1c0712f4862c164e17e8c2e8a241f2783cabcc685e"
         )
     ],
     swiftLanguageVersions: [.v5]
