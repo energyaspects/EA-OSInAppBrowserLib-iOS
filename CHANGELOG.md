@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `OpenInSystemBrowser`'s event listeners (https://outsystemsrd.atlassian.net/browse/RMET-3429).
 - Add `OpenInSystemBrowser`'s features (https://outsystemsrd.atlassian.net/browse/RMET-3423).
 - Add `OpenInExternalBrowser` (https://outsystemsrd.atlassian.net/browse/RMET-3421).
+- Add Swift Package Manager support
 
 ### Chores
 - Create `podspec` to enable CocoaPods publish (https://outsystemsrd.atlassian.net/browse/RMET-3578).
