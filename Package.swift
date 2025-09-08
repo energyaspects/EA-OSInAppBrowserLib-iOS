@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "OSInAppBrowserLib",
+    name: "ea-osinappbrowserlib-ios",
     platforms: [
         .iOS(.v13)
     ],
@@ -14,10 +14,9 @@ let package = Package(
     ],
     dependencies: [],
     targets: [
-        .binaryTarget(
+        .target(
             name: "OSInAppBrowserLib",
-            url: "https://github.com/energyaspects/EA-OSInAppBrowserLib-iOS/releases/download/2.1.0/OSInAppBrowserLib.zip",
-            checksum: "8700c5929eda811739570b1c0712f4862c164e17e8c2e8a241f2783cabcc685e"
+            path: "OSInAppBrowserLib"
         )
     ],
     swiftLanguageVersions: [.v5]
